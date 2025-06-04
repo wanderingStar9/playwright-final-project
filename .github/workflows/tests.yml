@@ -25,9 +25,29 @@ jobs:
 
     - name: Run Playwright tests
       run: npx playwright test
+    
+  
+    - name: Load Test report history
+      uses: actions/checkout@v3
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+
 
     - name: Generate Allure Report
       if: always()
       uses: simple-elf/allure-report-action@v1.3
       with:
+        gh_pages: gh-pages
         allure_results: allure-results
+        allure_history: allure-history
+
+    - name: Publish test report
+      uses: peaceiris/actions-gh-pages@v3
+      if: always()
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: allure-history
