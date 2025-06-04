@@ -15,6 +15,7 @@ const config: Config = {
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ["html"],
+    ["github"],
     ["allure-playwright"]
   ],
   use: {
